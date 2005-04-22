@@ -1,0 +1,242 @@
+NAME
+    Perl class for creating Oracle triggers
+
+SYNOPSIS
+      use Oracle::Trigger;
+
+      my %cfg = ('conn_string'=>'usr/pwd@db', 'table_name'=>'my_ora_tab');
+      my $ot = Oracle::Trigger->new;
+      my $sql= $ot->prepare(%cfg); 
+      # or combine the two
+      my $ot = Oracle::Trigger->new(%cfg);
+
+DESCRIPTION
+    This class contains methods to create audit tables and triggers for
+    Oracle tables.
+
+   new (conn_string=>'usr/pwd@db',table_name=>'my_table')
+
+    Input variables:
+
+      $cs  - Oracle connection string in usr/pwd@db
+      $tn  - Oracle table name without schema
+
+    Variables used or routines called:
+
+      None
+
+    How to use:
+
+       my $obj = new Oracle::Trigger;      # or
+       my $obj = Oracle::Trigger->new;     # or
+       my $cs  = 'usr/pwd@db';
+       my $tn  = 'my_table'; 
+       my $obj = Oracle::Trigger->new(cs=>$cs,tn=>$tn); # or
+       my $obj = Oracle::Trigger->new('cs',$cs, 'tn',$tn); 
+
+    Return: new empty or initialized Oracle::Trigger object.
+
+    This method constructs a Perl object and capture any parameters if
+    specified. It creates and defaults the following variables:
+
+      $self->{conn_string} = "";       # or $self->{cs}
+      $self->{table_name}  = 'my_tab'; # or $self->{tn}  
+
+   prepare($cs, $tn, $tp)
+
+    Input variables:
+
+      $cs  - Oracle connection string in usr/pwd@db
+      $tn  - Oracle table name without schema
+      $tp  - trigger type
+             DATA - trigger to audit a table. This is the default.
+
+    Variables used or routines called:
+
+      Debug::EchoMessage
+        echoMSG - display message
+      {cs} - connection string
+      {tn} - table name 
+      {drop_audit}   - whether to drop audit table if it exists
+      {audit_table}  - audit table name, default to aud${$tn}
+      {trigger_name} - trigger name, default to trg${$tn}
+
+    How to use:
+
+      my $ar = $self->prepare('usr/pwd@db','my_tab');
+
+    Return: $hr - a hash array ref containing the following keys:
+
+      dbh         - the database handler
+      sql_audit   - SQL statement for creating the audit table
+      sql_trigger - SQL statement for creating the trigger
+
+    This method performs the following tasks:
+
+      1) create a database handler
+      2) check the existance of the table 
+      3) generate script for creating audit table
+      4) generate script for creating trigger
+
+    And it sets the following internal variable as well:
+
+      {dbh} - database handler
+      {sql_audit} - sql statements to create audit table
+      {sql_trigger} - sql statement to create trigger
+
+   execute($typ)
+
+    Input variables:
+
+      $typ - action type:
+             TRIGGER - create trigger only 
+             AUDIT   - create audit table only
+             default - null and will create both
+
+    Variables used or routines called:
+
+      {dbh} - database handler
+      {sql_audit} - sql statements to create audit table
+      {sql_trigger} - sql statement to create trigger
+
+    How to use:
+
+      my $ar = $self->prepare('usr/pwd@db','my_tab');
+      $self->execute();
+
+    Return: 0|1: 0 - OK; 1 - failed
+
+    This method submit the sql statement to Oracle server.
+
+   get_dbh($con, $dtp)
+
+    Input variables:
+
+      $con - Connection string for
+             Oralce: usr/pwd@db (default)
+                CSV: /path/to/file
+           ODBC|SQL: usr/pwd@DSN[:approle/rolepwd]
+      $dtp - Database type: Oracle, CSV, etc
+
+    Variables used or routines called:
+
+      DBI
+      DBD::Oracle
+      Win32::ODBC
+
+    How to use:
+
+      $self->get_dbh('usr/pwd@dblk', 'Oracle');
+      $self->get_dbh('usr/pwd@dblk:approle/rpwd', 'SQL');
+
+    Return: database handler
+
+    If application role is provided, it will activate the application role
+    as well.
+
+   is_object_exist($dbh,$tn,$tp)
+
+    Input variables:
+
+      $dbh - database handler, required.
+      $tn  - table/object name, required.
+             schema.table_name is allowed.
+
+    Variables used or routines called:
+
+      echoMSG    - display messages.
+
+    How to use:
+
+      # whether table 'emp' exist
+      $yesno = $self->is_object_exist($dbh,'emp');
+
+    Return: 0 - the object does not exist; 1 - the object exist;
+
+   get_table_definition($dbh,$tn,$cns,$otp)
+
+    Input variables:
+
+      $dbh - database handler, required.
+      $tn  - table/object name, required.
+             schema.table_name is allowed.
+      $cns - column names separated by comma.
+             Default is null, i.e., to get all the columns.
+             If specified, only get definition for those specified.
+      $otp - output array type:
+             AR|ARRAY        - returns ($cns,$df1,$cmt)
+             AH1|ARRAY_HASH1 - returns ($cns,$df2,$cmt)
+             HH|HASH         - returns ($cns,$df3,$cmt)
+             AH2|ARRAY_HASH2 - returns ($cns,$df4,$cmt)
+
+    Variables used or routines called:
+
+      echoMSG - display messages.
+
+    How to use:
+
+      ($cns,$df1,$cmt) = $self->getTableDef($dbh,$table_name,'','array');
+      ($cns,$df2,$cmt) = $self->getTableDef($dbh,$table_name,'','ah1');
+      ($cns,$df3,$cmt) = $self->getTableDef($dbh,$table_name,'','hash');
+      ($cns,$df4,$cmt) = $self->getTableDef($dbh,$table_name,'','ah2');
+
+    Return:
+
+      $cns - a list of column names separated by comma.
+      $df1 - column definiton array ref in [$seq][$cnn].
+        where $seq is column sequence number, $cnn is array
+        index number corresponding to column names: 
+              0 - cname, 
+              1 - coltype, 
+              2 - width, 
+              3 - scale, 
+              4 - precision, 
+              5 - nulls, 
+              6 - colno,
+              7 - character_set_name.
+      $df2 - column definiton array ref in [$seq]{$itm}.
+        where $seq is column number (colno) and $itm are:
+              col - column name
+              seq - column sequence number
+              typ - column data type
+              wid - column width
+              max - max width
+              min - min width
+              dec - number of decimals
+              req - requirement: null or not null
+              dft - date format
+              dsp - description or comments
+      $df3 - {$cn}{$itm} when $otp = 'HASH'
+        where $cn is column name in lower case and
+              $itm are the same as the above
+      $df4 - [$seq]{$itm} when $otp = 'AH2'
+        where $seq is the column number, and $itm are:
+              cname     - column name (col)
+              coltype   - column data type (typ)
+              width     - column width (wid)
+              scale     - column scale (dec)
+              precision - column precision (wid for N)
+              nulls     - null or not null (req)
+              colno     - column sequence number (seq)
+              character_set_name - character set name
+
+HISTORY
+    * Version 0.1
+        This version is to test out the functions of Mail classes:
+        Mail::Box::Message and Mail::Box::Manager.
+
+        04/22/2005 (htu) - finished creating DATA trigger rountines.
+
+SEE ALSO (some of docs that I check often)
+        Data::Describe, Oracle::Loader, CGI::Getopt, File::Xcopy,
+        perltoot(1), perlobj(1), perlbot(1), perlsub(1), perldata(1),
+        perlsub(1), perlmod(1), perlmodlib(1), perlref(1), perlreftut(1).
+
+AUTHOR
+        Copyright (c) 2005 Hanming Tu. All rights reserved.
+
+        This package is free software and is provided "as is" without
+        express or implied warranty. It may be used, redistributed and/or
+        modified under the terms of the Perl Artistic License (see
+        http://www.perl.com/perl/misc/Artistic.html)
+
