@@ -12,7 +12,7 @@ my $obj = Oracle::Trigger->new;
 
 isa_ok($obj, $class);
 
-my @md = @Oracle::Trigger::EXPORT_OK;
+my @md = (@Oracle::Trigger::EXPORT_OK,@Oracle::Trigger::IMPORT_OK);
 foreach my $m (@md) {
     ok($obj->can($m), "$class->can('$m')");
 }

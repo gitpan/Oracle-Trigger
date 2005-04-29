@@ -2,5 +2,5 @@ Trigger.pm
 test.pl
 Makefile.PL
 ./t/Trigger.t
-Oracle-Trigger-0.1.readme
+Oracle-Trigger-0.2.readme
 README
