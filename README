@@ -45,7 +45,7 @@ DESCRIPTION
 
 METHODS
     The following are the common methods, routines, and functions defined in
-    this classes.
+    this class.
 
   Exported Tag: All
 
@@ -133,6 +133,10 @@ HISTORY
     * Version 0.2
         04/29/2005 (htu) - modified some descriptions and moved the common
         routines to Oracle::DML::Common.
+
+    * Version 0.21
+        Since get_table_definition is moved to Oracle::Schema, we change it
+        here to use Oracle::Schema.
 
 SEE ALSO (some of docs that I check often)
         Data::Describe, Oracle::Loader, CGI::Getopt, File::Xcopy,

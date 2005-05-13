@@ -10,10 +10,11 @@ use Carp;
 # use Getopt::Std;
 use DBI;
 use Debug::EchoMessage;
-use Oracle::DML::Common qw(:db_conn :table);
+use Oracle::DML::Common qw(:db_conn);
+use Oracle::Schema qw(:table);
 
 require 5.003;
-$Oracle::Trigger::VERSION = 0.2;
+$Oracle::Trigger::VERSION = 0.21;
 
 require Exporter;
 our @ISA         = qw(Exporter);
@@ -111,7 +112,7 @@ sub new {
 =head1 METHODS
 
 The following are the common methods, routines, and functions 
-defined in this classes.
+defined in this class.
 
 =head2 Exported Tag: All 
 
@@ -349,6 +350,12 @@ This version is to test the procedures and create DATA trigger.
 
 04/29/2005 (htu) - modified some descriptions and moved the common
 routines to Oracle::DML::Common.
+
+=item * Version 0.21
+
+Since get_table_definition is moved to Oracle::Schema, we change it
+here to use Oracle::Schema.
+
 
 =cut
 
