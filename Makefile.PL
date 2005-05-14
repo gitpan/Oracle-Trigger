@@ -32,13 +32,14 @@ use ExtUtils::AutoInstall (
         ],
     -core => [
         Oracle::DML::Common=>0.2,
+        Oracle::Schema=>0.01,
         ],
 );
 WriteMakefile(
-    DISTNAME        => 'Oracle-Trigger-0.21.tar.gz'  ,
+    DISTNAME        => 'Oracle-Trigger-0.22.tar.gz'  ,
     ABSTRACT        => 'Perl class for creating Oracle triggers',
     NAME            => 'Oracle::Trigger'             ,
-    PREREQ_PM       => {Test::Harness => 0.1,DBD::Oracle => 1.16,Oracle::DML::Common => 0.2,Test::More => 0.45,DBI => 1.46,Debug::EchoMessage => 0.01,},
+    PREREQ_PM       => {Test::Harness => 0.1,Test::More => 0.45,},
     AUTHOR          => 'geotiger2001@yahoo.com'      ,
-    VERSION         => 0.21                          ,
+    VERSION         => 0.22                          ,
 );

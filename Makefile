@@ -12,10 +12,10 @@
 
 #	ABSTRACT => q[Perl class for creating Oracle triggers]
 #	AUTHOR => q[geotiger2001@yahoo.com]
-#	DISTNAME => q[Oracle-Trigger-0.21.tar.gz]
+#	DISTNAME => q[Oracle-Trigger-0.22.tar.gz]
 #	NAME => q[Oracle::Trigger]
-#	PREREQ_PM => { Test::Harness=>q[0.1], DBD::Oracle=>q[1.16], Oracle::DML::Common=>q[0.2], Test::More=>q[0.45], DBI=>q[1.46], Debug::EchoMessage=>q[0.01] }
-#	VERSION => q[0.21]
+#	PREREQ_PM => { Test::Harness=>q[0.1], Oracle::DML::Common=>q[0.2], Test::More=>q[0.45], Oracle::Schema=>q[0.01], Debug::EchoMessage=>q[0.01] }
+#	VERSION => q[0.22]
 #	test => { TESTS=>q[t/Trigger.t] }
 
 # --- MakeMaker post_initialize section:
@@ -49,11 +49,11 @@ FULL_AR = /usr/ccs/bin/ar
 # --- MakeMaker constants section:
 AR_STATIC_ARGS = cr
 NAME = Oracle::Trigger
-DISTNAME = Oracle-Trigger-0.21.tar.gz
+DISTNAME = Oracle-Trigger-0.22.tar.gz
 NAME_SYM = Oracle_Trigger
-VERSION = 0.21
-VERSION_SYM = 0_21
-XS_VERSION = 0.21
+VERSION = 0.22
+VERSION_SYM = 0_22
+XS_VERSION = 0.22
 INST_BIN = blib/bin
 INST_EXE = blib/script
 INST_LIB = blib/lib
@@ -659,7 +659,7 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd:
-	@$(PERL) -e "print qq{<SOFTPKG NAME=\"Oracle-Trigger-0.21.tar.gz\" VERSION=\"0,21,0,0\">\n}. qq{\t<TITLE>Oracle-Trigger-0.21.tar.gz</TITLE>\n}. qq{\t<ABSTRACT>Perl class for creating Oracle triggers</ABSTRACT>\n}. qq{\t<AUTHOR>geotiger2001\@yahoo.com</AUTHOR>\n}. qq{\t<IMPLEMENTATION>\n}. qq{\t\t<DEPENDENCY NAME=\"DBD-Oracle\" VERSION=\"1,16,0,0\" />\n}. qq{\t\t<DEPENDENCY NAME=\"DBI\" VERSION=\"1,46,0,0\" />\n}. qq{\t\t<DEPENDENCY NAME=\"Debug-EchoMessage\" VERSION=\"0,01,0,0\" />\n}. qq{\t\t<DEPENDENCY NAME=\"Oracle-DML-Common\" VERSION=\"0,2,0,0\" />\n}. qq{\t\t<DEPENDENCY NAME=\"Test-Harness\" VERSION=\"0,1,0,0\" />\n}. qq{\t\t<DEPENDENCY NAME=\"Test-More\" VERSION=\"0,45,0,0\" />\n}. qq{\t\t<OS NAME=\"$(OSNAME)\" />\n}. qq{\t\t<ARCHITECTURE NAME=\"sun4-solaris-64int\" />\n}. qq{\t\t<CODEBASE HREF=\"\" />\n}. qq{\t</IMPLEMENTATION>\n}. qq{</SOFTPKG>\n}" > Oracle-Trigger-0.21.tar.gz.ppd
+	@$(PERL) -e "print qq{<SOFTPKG NAME=\"Oracle-Trigger-0.22.tar.gz\" VERSION=\"0,22,0,0\">\n}. qq{\t<TITLE>Oracle-Trigger-0.22.tar.gz</TITLE>\n}. qq{\t<ABSTRACT>Perl class for creating Oracle triggers</ABSTRACT>\n}. qq{\t<AUTHOR>geotiger2001\@yahoo.com</AUTHOR>\n}. qq{\t<IMPLEMENTATION>\n}. qq{\t\t<DEPENDENCY NAME=\"Debug-EchoMessage\" VERSION=\"0,01,0,0\" />\n}. qq{\t\t<DEPENDENCY NAME=\"Oracle-DML-Common\" VERSION=\"0,2,0,0\" />\n}. qq{\t\t<DEPENDENCY NAME=\"Oracle-Schema\" VERSION=\"0,01,0,0\" />\n}. qq{\t\t<DEPENDENCY NAME=\"Test-Harness\" VERSION=\"0,1,0,0\" />\n}. qq{\t\t<DEPENDENCY NAME=\"Test-More\" VERSION=\"0,45,0,0\" />\n}. qq{\t\t<OS NAME=\"$(OSNAME)\" />\n}. qq{\t\t<ARCHITECTURE NAME=\"sun4-solaris-64int\" />\n}. qq{\t\t<CODEBASE HREF=\"\" />\n}. qq{\t</IMPLEMENTATION>\n}. qq{</SOFTPKG>\n}" > Oracle-Trigger-0.22.tar.gz.ppd
 
 # --- MakeMaker pm_to_blib section:
 
